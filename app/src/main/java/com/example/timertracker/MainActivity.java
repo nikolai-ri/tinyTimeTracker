@@ -18,8 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,19 +44,21 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                LocalDateTime now = LocalDateTime.now();
-                int currentDayOfYear = now.getDayOfYear();
+                ListIterator<Workday> iterator = mWorkdayViewModel.getAllWorkdays().getValue().listIterator();
+                Calendar gregorianCalendar = GregorianCalendar.getInstance(TimeZone.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                String stringDate = sdf.format(gregorianCalendar.getTime());
 
-                while(mWorkdayViewModel.getAllWorkdays().getValue().listIterator().hasNext()) {
-                    Workday workday = mWorkdayViewModel.getAllWorkdays().getValue().listIterator().next();
-                    if(workday.getDayOfYear() == currentDayOfYear) {
-                        workday.setEndTime(System.currentTimeMillis());
+                while(iterator.hasNext()) {
+                    Workday workday = iterator.next();
+                    if(workday.getStringDate().equals(stringDate)) {
+                        workday.setEndTime(gregorianCalendar.getTimeInMillis());
                         mWorkdayViewModel.update(workday);
                         return;
                     }
                 }
 
-                Workday workday = new Workday(System.currentTimeMillis(), 0, currentDayOfYear);
+                Workday workday = new Workday(gregorianCalendar.getTimeInMillis(), 0, stringDate);
                 mWorkdayViewModel.insert(workday);
             }
         });

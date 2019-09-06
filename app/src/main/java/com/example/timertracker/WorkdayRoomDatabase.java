@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Workday.class}, version = 1)
+@Database(entities = {Workday.class}, version = 2)
 public abstract class WorkdayRoomDatabase extends RoomDatabase {
 
     private static volatile WorkdayRoomDatabase INSTANCE;
@@ -16,7 +16,8 @@ public abstract class WorkdayRoomDatabase extends RoomDatabase {
             synchronized (WorkdayRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            WorkdayRoomDatabase.class, "workday_database").build();
+                            WorkdayRoomDatabase.class, "workday_database")
+                            .fallbackToDestructiveMigration().build();
                 }
             }
         }
