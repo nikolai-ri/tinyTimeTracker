@@ -1,4 +1,4 @@
-package com.example.timertracker;
+package com.example.timertracker.Model;
 
 import androidx.room.TypeConverter;
 
