@@ -1,4 +1,4 @@
-package com.example.timertracker;
+package com.example.timertracker.Model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -13,7 +13,7 @@ import java.util.TimeZone;
 @Entity(tableName = "workday_table")
 public class Workday {
 
-    Workday(long startTime, long endTime, String stringDate, ArrayList<String> workItems) {
+    public Workday(long startTime, long endTime, String stringDate, ArrayList<String> workItems) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.stringDate = stringDate;

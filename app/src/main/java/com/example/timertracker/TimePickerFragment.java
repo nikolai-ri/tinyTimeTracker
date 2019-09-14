@@ -2,7 +2,6 @@ package com.example.timertracker;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
@@ -11,6 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.timertracker.ActivityViewLayer.WorkdayViewModel;
+import com.example.timertracker.Model.Workday;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -24,13 +26,11 @@ public class TimePickerFragment extends DialogFragment
     private Workday workday;
     private WorkdayViewModel workdayViewModel;
     private long currentlySetTime;
-    private Context context;
 
 
-    public TimePickerFragment(Context context, long workdayId, boolean isStartTime) {
+    public TimePickerFragment(long workdayId, boolean isStartTime) {
         this.isStartTime = isStartTime;
         this.workdayId = workdayId;
-        this.context = context;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class TimePickerFragment extends DialogFragment
                 // Use the current time as the default values for the picker
                 final Calendar gregorianCalendar = GregorianCalendar.getInstance(TimeZone.getDefault());
                 gregorianCalendar.setTimeInMillis(currentlySetTime);
-                int hour = gregorianCalendar.get(Calendar.HOUR);
+                int hour = gregorianCalendar.get(Calendar.HOUR_OF_DAY);
                 int minute = gregorianCalendar.get(Calendar.MINUTE);
 
                 timePickerDialog.updateTime(hour, minute);

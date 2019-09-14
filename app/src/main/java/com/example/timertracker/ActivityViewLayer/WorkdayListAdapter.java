@@ -1,4 +1,4 @@
-package com.example.timertracker;
+package com.example.timertracker.ActivityViewLayer;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import com.example.timertracker.DetailClickListener;
+import com.example.timertracker.Model.Workday;
+import com.example.timertracker.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

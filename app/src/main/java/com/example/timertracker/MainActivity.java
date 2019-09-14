@@ -17,6 +17,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.timertracker.ActivityViewLayer.WorkdayListAdapter;
+import com.example.timertracker.ActivityViewLayer.WorkdayViewModel;
+import com.example.timertracker.Model.Workday;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onReceive(Context context, Intent intent) {
-                DialogFragment newFragment = new TimePickerFragment(context,
+                DialogFragment newFragment = new TimePickerFragment(
                         intent.getLongExtra("workdayId", 0),
                         intent.getBooleanExtra("isStartTime", true));
                 newFragment.show(getSupportFragmentManager(), "timePicker");

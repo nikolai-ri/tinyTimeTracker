@@ -1,9 +1,12 @@
-package com.example.timertracker;
+package com.example.timertracker.ActivityViewLayer;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.timertracker.Model.Workday;
+import com.example.timertracker.Persistence.WorkdayRepository;
 
 import java.util.List;
 
@@ -18,11 +21,11 @@ public class WorkdayViewModel extends AndroidViewModel {
         mAllWorkdays = mWorkdayRepository.getAllWorkdays();
     }
 
-    LiveData<List<Workday>> getAllWorkdays() {
+    public LiveData<List<Workday>> getAllWorkdays() {
         return mAllWorkdays;
     }
 
-    LiveData<Workday> getWorkdayById(long id) {
+    public LiveData<Workday> getWorkdayById(long id) {
         return this.mWorkdayRepository.getWorkdayById(id);
     }
 
