@@ -66,11 +66,12 @@ public class TimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
         final Calendar gregorianCalendar = GregorianCalendar.getInstance(TimeZone.getDefault());
+        gregorianCalendar.setTimeInMillis(workday.getStartTime());
         gregorianCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         gregorianCalendar.set(Calendar.MINUTE, minute);
 
         if(isStartTime) this.workday.setStartTime(gregorianCalendar.getTimeInMillis());
-        else          this.workday.setEndTime(gregorianCalendar.getTimeInMillis());
+        else            this.workday.setEndTime(gregorianCalendar.getTimeInMillis());
 
         this.workdayViewModel.update(workday);
     }

@@ -77,24 +77,33 @@ public class Workday {
 
     public String toString(){
 
-        Date startDate = new Date(this.startTime);
-        Date endDate = new Date(this.endTime);
+        Date startTime = new Date(this.startTime);
+        Date endTime = new Date(this.endTime);
 
-        String workedHours = formatMilliIntoHours(this.startTime, this.endTime);
+        String workedHours = calculateWorkedHoursToString(this.startTime, this.endTime);
 
 
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         formatter.setTimeZone(TimeZone.getDefault());
 
-        String startDateFormatted = formatter.format(startDate);
-        String endDateFormatted = formatter.format(endDate);
+        String startTimeFormatted = formatter.format(startTime);
+        String endTimeFormatted = formatter.format(endTime);
 
 
-        return startDateFormatted + " - " + endDateFormatted + " = " + workedHours + " at " + this.stringDate;
+        return startTimeFormatted + " - " + endTimeFormatted + " = " + workedHours + " at " + this.stringDate;
+    }
+
+    public String toHourMinuteString(boolean isStartTime){
+        Date time = isStartTime ? new Date(this.startTime) : new Date(this.endTime);
+
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        formatter.setTimeZone(TimeZone.getDefault());
+
+        return formatter.format(time);
     }
 
 
-    private String formatMilliIntoHours(long startTime, long endTime) {
+    private static String calculateWorkedHoursToString(long startTime, long endTime) {
         return (int) (((endTime - startTime) / 1000) / 3600) + ":" +  (((endTime - startTime) / 60000) % 60);
     }
 

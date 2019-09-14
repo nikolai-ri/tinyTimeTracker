@@ -18,11 +18,11 @@ public class WorkdayListAdapter extends BaseExpandableListAdapter {
     private Context _context;
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
+    private HashMap<String, List<Long>> _listDataChild;
     private List<Workday> workdayList;
 
     public WorkdayListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
+                                 HashMap<String, List<Long>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -44,7 +44,6 @@ public class WorkdayListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
         Workday parentWorkday = this.workdayList.get(groupPosition);
 
         if (convertView == null) {
@@ -53,10 +52,13 @@ public class WorkdayListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
-        txtListChild.setOnClickListener(new DetailClickListener(parentWorkday.getId(), this._context, false));
-        txtListChild.setText("Change starttime...");
+        TextView startTimeButton = convertView.findViewById(R.id.startTime);
+        startTimeButton.setOnClickListener(new DetailClickListener(parentWorkday.getId(), this._context, true));
+        startTimeButton.setText(parentWorkday.toHourMinuteString(true));
+
+        TextView endTimeButton = convertView.findViewById(R.id.endTime);
+        endTimeButton.setOnClickListener(new DetailClickListener(parentWorkday.getId(), this._context, false));
+        endTimeButton.setText(parentWorkday.toHourMinuteString(false));
 
         return convertView;
     }
@@ -119,9 +121,8 @@ public class WorkdayListAdapter extends BaseExpandableListAdapter {
             currentWorkday = workdayListIterator.next();
             this._listDataHeader.add(currentWorkday.toString());
 
-            ArrayList<String> details = new ArrayList<>();
-            details.add(currentWorkday.getStringDate());
-            details.add("this is a test");
+            ArrayList<Long> details = new ArrayList<>();
+            details.add(new Long(currentWorkday.getId()));
             this._listDataChild.put(currentWorkday.toString(), details);
         }
         notifyDataSetChanged();

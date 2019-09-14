@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     WorkdayListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader = new ArrayList<>();
-    HashMap<String, List<String>> listDataChild = new HashMap<>();
+    HashMap<String, List<Long>> listDataChild = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
