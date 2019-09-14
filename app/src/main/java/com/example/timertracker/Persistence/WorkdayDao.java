@@ -24,7 +24,7 @@ public interface WorkdayDao {
     @Update
     void update (Workday workday);
 
-    @Query("SELECT * from workday_table ORDER BY startTime ASC")
+    @Query("SELECT * from workday_table ORDER BY id ASC")
     LiveData<List<Workday>> getAllWorkdays();
 
     @Query("SELECT * from workday_table WHERE id = :id")

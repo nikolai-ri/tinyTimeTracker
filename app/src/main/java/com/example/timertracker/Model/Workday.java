@@ -13,9 +13,8 @@ import java.util.TimeZone;
 @Entity(tableName = "workday_table")
 public class Workday {
 
-    public Workday(long startTime, long endTime, String stringDate, ArrayList<String> workItems) {
-        this.startTime = startTime;
-        this.endTime = endTime;
+    public Workday(ArrayList<ArrayList<Long>> workIntervalls, String stringDate, ArrayList<String> workItems) {
+        this.workIntervalls = workIntervalls;
         this.stringDate = stringDate;
         this.workItems = workItems;
     }
@@ -24,15 +23,11 @@ public class Workday {
     private long id;
 
     @NonNull
-    private long startTime;
-
-    @NonNull
-    private long endTime;
-
-    @NonNull
     private String stringDate;
 
     private ArrayList<String> workItems;
+
+    private ArrayList<ArrayList<Long>> workIntervalls;
 
     public long getId() {
         return id;
@@ -42,20 +37,36 @@ public class Workday {
         this.id = id;
     }
 
-    public long getStartTime() {
-        return startTime;
+    public ArrayList<ArrayList<Long>> getWorkIntervalls() {
+        return workIntervalls;
     }
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
+    public void workIntervalls(ArrayList<ArrayList<Long>> workIntervalls) {
+        this.workIntervalls = workIntervalls;
     }
 
-    public long getEndTime() {
-        return endTime;
+    public ArrayList<Long> getWorkIntervallsById(int id) {
+        return this.workIntervalls.get(id);
     }
 
-    public void setEndTime(long endTime) {
-        this.endTime = endTime;
+    public void setWorkIntervalls(int id, ArrayList<Long> workIntervalls) {
+        this.workIntervalls.set(id, workIntervalls);
+    }
+
+    public Long getStarttimeById(int id) {
+        return this.workIntervalls.get(id).get(0);
+    }
+
+    public void setStarttimeById(int id, Long starttime) {
+        this.workIntervalls.get(id).set(0, starttime);
+    }
+
+    public Long getEndtimeById(int id) {
+        return this.workIntervalls.get(id).get(1);
+    }
+
+    public void setEndtimeById(int id, Long endtime) {
+        this.workIntervalls.get(id).set(1, endtime);
     }
 
     public ArrayList<String> getWorkItems() {
@@ -77,10 +88,13 @@ public class Workday {
 
     public String toString(){
 
-        Date startTime = new Date(this.startTime);
-        Date endTime = new Date(this.endTime);
+        Date startTime = new Date(this.workIntervalls.get(0).get(0));
 
-        String workedHours = calculateWorkedHoursToString(this.startTime, this.endTime);
+        // in case the most recent added workinterval is still running, the lastworkintervaltoday gives an index out of bound if one tries to get the endtime of that interval -> starttime ist taken as endtime of day
+        ArrayList<Long> lastWorkIntervalToday = this.workIntervalls.get(this.workIntervalls.size() - 1);
+        Date endTime = lastWorkIntervalToday.size() > 1 ? new Date(lastWorkIntervalToday.get(1)) : new Date(lastWorkIntervalToday.get(0));
+
+        String workedHours = calculateWorkedHoursToString(startTime.getTime(), endTime.getTime());
 
 
         DateFormat formatter = new SimpleDateFormat("HH:mm");
@@ -93,8 +107,8 @@ public class Workday {
         return startTimeFormatted + " - " + endTimeFormatted + " = " + workedHours + " at " + this.stringDate;
     }
 
-    public String toHourMinuteString(boolean isStartTime){
-        Date time = isStartTime ? new Date(this.startTime) : new Date(this.endTime);
+    public static String toHourMinuteString(Long selectedTime){
+        Date time = new Date(selectedTime);
 
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         formatter.setTimeZone(TimeZone.getDefault());

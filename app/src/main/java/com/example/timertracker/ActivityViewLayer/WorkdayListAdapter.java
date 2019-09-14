@@ -34,9 +34,9 @@ public class WorkdayListAdapter extends BaseExpandableListAdapter {
 
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
+    public Object getChild(int groupPosition, int childPosition) {
         return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+                .get(childPosition);
     }
 
     @Override
@@ -56,15 +56,21 @@ public class WorkdayListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        TextView startTimeButton = convertView.findViewById(R.id.startTime);
-        startTimeButton.setOnClickListener(new DetailClickListener(parentWorkday.getId(), this._context, true));
-        startTimeButton.setText(parentWorkday.toHourMinuteString(true));
-
-        TextView endTimeButton = convertView.findViewById(R.id.endTime);
-        endTimeButton.setOnClickListener(new DetailClickListener(parentWorkday.getId(), this._context, false));
-        endTimeButton.setText(parentWorkday.toHourMinuteString(false));
+        this.configureButtonsInChildView(convertView, parentWorkday.getWorkIntervalls().get(childPosition), parentWorkday, childPosition);
 
         return convertView;
+    }
+
+    private void configureButtonsInChildView(View convertView, ArrayList<Long> currentWorkInterval, Workday parentWorkday, int childPosition) {
+
+            TextView startTimeButton = convertView.findViewById(R.id.startTime);
+            startTimeButton.setOnClickListener(new DetailClickListener(parentWorkday.getId(), childPosition, this._context, true));
+            startTimeButton.setText(Workday.toHourMinuteString(currentWorkInterval.get(0)));
+
+            TextView endTimeButton = convertView.findViewById(R.id.endTime);
+            endTimeButton.setOnClickListener(new DetailClickListener(parentWorkday.getId(), childPosition, this._context, false));
+            endTimeButton.setText(Workday.toHourMinuteString(currentWorkInterval.size() > 1 ? currentWorkInterval.get(1) : 0)); // in case the last workinterval is still running
+
     }
 
     @Override
@@ -126,7 +132,14 @@ public class WorkdayListAdapter extends BaseExpandableListAdapter {
             this._listDataHeader.add(currentWorkday.toString());
 
             ArrayList<Long> details = new ArrayList<>();
-            details.add(new Long(currentWorkday.getId()));
+
+            ListIterator<ArrayList<Long>> listIteratorWorkIntervals = currentWorkday.getWorkIntervalls().listIterator();
+
+            while(listIteratorWorkIntervals.hasNext()) {
+                details.add((long) listIteratorWorkIntervals.nextIndex());
+                listIteratorWorkIntervals.next();
+            }
+
             this._listDataChild.put(currentWorkday.toString(), details);
         }
         notifyDataSetChanged();

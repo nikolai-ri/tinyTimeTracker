@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
                 DialogFragment newFragment = new TimePickerFragment(
                         intent.getLongExtra("workdayId", 0),
+                        intent.getIntExtra("workIntervalId", 0),
                         intent.getBooleanExtra("isStartTime", true));
                 newFragment.show(getSupportFragmentManager(), "timePicker");
             }
@@ -87,17 +88,36 @@ public class MainActivity extends AppCompatActivity {
 
             while(iterator.hasNext()) {
                 Workday workday = iterator.next();
-                if(workday.getStringDate().equals(stringDate)) {
-                    workday.setEndTime(gregorianCalendar.getTimeInMillis());
-                    mWorkdayViewModel.update(workday);
-                    return;
+                if(workday.getStringDate().equals(stringDate) &&
+                        workday.getWorkIntervalls().size() > 0) { // the latter is always true if the first is true but for clarity...
+                        ArrayList<Long> lastInterval = workday.getWorkIntervalls().get(workday.getWorkIntervalls().size() - 1);
+                        if (lastInterval.size() > 1) {
+                            ArrayList<Long> arrayList = new ArrayList<>();
+                            arrayList.add(gregorianCalendar.getTimeInMillis());
+                            workday.getWorkIntervalls().add(arrayList);
+                        } else {
+                            lastInterval.add(gregorianCalendar.getTimeInMillis());
+                        }
+                        mWorkdayViewModel.update(workday);
+                        return;
+
                 }
             }
 
-            Workday workday = new Workday(gregorianCalendar.getTimeInMillis(), 0, stringDate, new ArrayList<String>());
-            mWorkdayViewModel.insert(workday);
+            mWorkdayViewModel.insert(createNewWorkday(gregorianCalendar, stringDate));
         }
     };
+
+    private Workday createNewWorkday(Calendar gregorianCalendar, String stringDate) {
+        ArrayList<Long> workInterval = new ArrayList<>();
+        workInterval.add(gregorianCalendar.getTimeInMillis());
+        workInterval.add(Long.valueOf(0));
+
+        ArrayList<ArrayList<Long>> workIntervals = new ArrayList<>();
+        workIntervals.add(workInterval);
+
+        return new Workday(workIntervals, stringDate, new ArrayList<String>());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
