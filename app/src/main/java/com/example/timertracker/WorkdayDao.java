@@ -25,4 +25,7 @@ public interface WorkdayDao {
     @Query("SELECT * from workday_table ORDER BY startTime ASC")
     LiveData<List<Workday>> getAllWorkdays();
 
+    @Query("SELECT * from workday_table WHERE id = :id")
+    LiveData<Workday> getWorkdayById(long id);
+
 }

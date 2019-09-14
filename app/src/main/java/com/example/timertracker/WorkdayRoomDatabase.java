@@ -5,8 +5,10 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
-@Database(entities = {Workday.class}, version = 2)
+@Database(entities = {Workday.class}, version = 3)
+@TypeConverters({Converters.class})
 public abstract class WorkdayRoomDatabase extends RoomDatabase {
 
     private static volatile WorkdayRoomDatabase INSTANCE;

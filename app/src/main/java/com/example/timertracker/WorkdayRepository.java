@@ -18,9 +18,10 @@ public class WorkdayRepository {
         mAllWorkdays = mWorkdayDao.getAllWorkdays();
     }
 
-    LiveData<List<Workday>> getAllWorkdays() {
+    public LiveData<List<Workday>> getAllWorkdays() {
         return mAllWorkdays;
     }
+    public LiveData<Workday> getWorkdayById(long id) {return this.mWorkdayDao.getWorkdayById(id);}
 
     public void insert (Workday workday) {
         new insertAsyncTask(mWorkdayDao).execute(workday);

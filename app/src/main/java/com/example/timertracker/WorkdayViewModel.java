@@ -22,6 +22,10 @@ public class WorkdayViewModel extends AndroidViewModel {
         return mAllWorkdays;
     }
 
+    LiveData<Workday> getWorkdayById(long id) {
+        return this.mWorkdayRepository.getWorkdayById(id);
+    }
+
     public void insert(Workday workday) {
         mWorkdayRepository.insert(workday);
     }
