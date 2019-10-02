@@ -1,4 +1,4 @@
-package com.example.timertracker;
+package org.niko.timertracker.workdayslistactivity;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -11,8 +11,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.timertracker.ActivityViewLayer.WorkdayViewModel;
-import com.example.timertracker.Model.Workday;
+import org.niko.timertracker.workdayslistactivity.ActivityViewLayer.WorkdayViewModel;
+import org.niko.timertracker.workdayslistactivity.Model.Workday;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -22,14 +22,14 @@ public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
     private boolean isStartTime;
-    private long workdayId;
+    private Long workdayId;
     private int workIntervalId;
     private Workday workday;
     private WorkdayViewModel workdayViewModel;
     private long currentlySetTime;
 
 
-    public TimePickerFragment(long workdayId, int workIntervalId, boolean isStartTime) {
+    public TimePickerFragment(Long workdayId, int workIntervalId, boolean isStartTime) {
         this.isStartTime = isStartTime;
         this.workdayId = workdayId;
         this.workIntervalId = workIntervalId;
@@ -48,9 +48,8 @@ public class TimePickerFragment extends DialogFragment
 
                 workday = workdayObject;
 
-                if(isStartTime) currentlySetTime = workday.getStarttimeById(workIntervalId);
-                else            currentlySetTime = workday.getWorkIntervallsById(workIntervalId).size() > 1 ?
-                        workday.getEndtimeById(workIntervalId) : workday.getStarttimeById(workIntervalId);
+                if(isStartTime) currentlySetTime = workday.getWorkIntervals().get(workIntervalId).get(0);
+                else            currentlySetTime = workday.getWorkIntervals().get(workIntervalId).get(1) ;
 
                 // Use the current time as the default values for the picker
                 final Calendar gregorianCalendar = GregorianCalendar.getInstance(TimeZone.getDefault());
@@ -69,13 +68,11 @@ public class TimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
         final Calendar gregorianCalendar = GregorianCalendar.getInstance(TimeZone.getDefault());
-        gregorianCalendar.setTimeInMillis(workday.getStarttimeById(0));
+        gregorianCalendar.setTimeInMillis(workday.getWorkIntervals().get(0).get(0));
         gregorianCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         gregorianCalendar.set(Calendar.MINUTE, minute);
 
-        if(isStartTime) this.workday.getWorkIntervallsById(workIntervalId).set(0, gregorianCalendar.getTimeInMillis());
-        else            this.workday.getWorkIntervallsById(workIntervalId).set(1, gregorianCalendar.getTimeInMillis());
+        this.workdayViewModel.updateWorkIntervals(workday.getId(), workIntervalId, gregorianCalendar.getTimeInMillis(), isStartTime);
 
-        this.workdayViewModel.update(workday);
     }
 }

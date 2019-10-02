@@ -1,4 +1,4 @@
-package com.example.timertracker;
+package org.niko.timertracker;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;

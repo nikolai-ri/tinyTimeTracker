@@ -1,4 +1,4 @@
-package com.example.timertracker;
+package org.niko.timertracker;
 
 import org.junit.Test;
 
