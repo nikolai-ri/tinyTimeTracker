@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ListIterator;
@@ -100,7 +99,7 @@ public class Workday {
             String startTimeFormatted = formatter.format(this.workIntervals.get(0).get(0));
             String endTimeFormatted = formatter.format(workIntervals.get(workIntervals.size() - 1).get(1));
 
-            return startTimeFormatted + " - " + endTimeFormatted + " @ " + workedHours;
+            return startTimeFormatted + "-" + endTimeFormatted + " @ " + workedHours;
         } else {
             return "No work interval yet!";
         }

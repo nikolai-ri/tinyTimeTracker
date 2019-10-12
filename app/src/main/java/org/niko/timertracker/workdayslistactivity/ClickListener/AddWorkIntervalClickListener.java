@@ -31,11 +31,11 @@ public class AddWorkIntervalClickListener implements View.OnClickListener {
         FloatingActionButton floatingActionButton = v.findViewById(R.id.addWorkIntervalButton);
 
         if (FirebaseService.isIsWorkIntervalRunning()) {
-            floatingActionButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            floatingActionButton.setImageResource(R.drawable.ic_playicon);
             FirebaseService.setIsWorkIntervalRunning(false);
         }
         else {
-            floatingActionButton.setImageResource(R.drawable.ic_stop_black_24dp);
+            floatingActionButton.setImageResource(R.drawable.ic_stopicon);
             FirebaseService.setIsWorkIntervalRunning(true);
         }
         LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent);

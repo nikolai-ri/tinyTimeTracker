@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.widget.AppCompatButton;
 
 import org.niko.timertracker.workdayslistactivity.ClickListener.AddWorkIntervalClickListener;
 import org.niko.timertracker.workdayslistactivity.ClickListener.DateClickListener;
@@ -125,11 +125,11 @@ public class WorkdayListAdapter extends BaseExpandableListAdapter {
 
         resetGroupView(convertView, workday);
 
-        FloatingActionButton floatingActionButtonChangeDate = convertView.findViewById(R.id.changeDate);
-        floatingActionButtonChangeDate.setOnClickListener(new DateClickListener(this.workdayList.get(groupPosition).getId(), this._context));
-        floatingActionButtonChangeDate.setFocusable(false);
+        AppCompatButton appCompatButtonChangeDate = convertView.findViewById(R.id.changeDate);
+        appCompatButtonChangeDate.setOnClickListener(new DateClickListener(this.workdayList.get(groupPosition).getId(), this._context));
+        appCompatButtonChangeDate.setFocusable(false);
 
-        FloatingActionButton addWorkIntervalButton = convertView.findViewById(R.id.addWorkIntervalButton);
+        AppCompatButton addWorkIntervalButton = convertView.findViewById(R.id.addWorkIntervalButton);
         addWorkIntervalButton.setOnClickListener(new AddWorkIntervalClickListener(this.workdayList.get(groupPosition).getId(), !FirebaseService.isIsWorkIntervalRunning(), this._context));
         addWorkIntervalButton.setFocusable(false);
 

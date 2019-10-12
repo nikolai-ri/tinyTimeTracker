@@ -49,7 +49,7 @@ public class FirebaseService {
     public FirebaseService() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        workdaysBasePath = mDatabase.child(firebaseUser.getUid()).child("workdays");
+        workdaysBasePath = mDatabase.child("users").child(firebaseUser.getUid()).child("workdays");
     }
 
     /**
@@ -69,6 +69,7 @@ public class FirebaseService {
                         LinkedHashMap<Long, Workday> linkedHashMapWorkdays = toWorkdays(dataSnapshot);
                         cachedWorkdayList = linkedHashMapWorkdays;
                         reorderWorkdayListAfterChange();
+                        // Needs to come after reorder, otherwise the cachedList will be unordered on first load
                         allWorkdays.postValue(cachedWorkdayList);
                     }
                 }
@@ -83,7 +84,7 @@ public class FirebaseService {
     }
 
     public void reorderWorkdayListAfterChange() {
-        if(allWorkdays != null && allWorkdays.getValue() != null && allWorkdays.getValue().size() > 0) {
+        if(cachedWorkdayList != null && cachedWorkdayList.values() != null) {
             cachedWorkdayList = sortByValue(cachedWorkdayList);
         }
     }
@@ -252,7 +253,7 @@ public class FirebaseService {
 
     private LinkedHashMap<Long, Workday> sortByValue(LinkedHashMap<Long, Workday> linkedHashMap) {
         List<Map.Entry<Long, Workday>> list = new ArrayList<>(linkedHashMap.entrySet());
-        list.sort(Map.Entry.comparingByValue((Workday workday, Workday t1) -> Long.compare(workday.getId(), t1.getId())));
+        list.sort(Map.Entry.comparingByValue((Workday workday, Workday t1) -> Long.compare(t1.getId(), workday.getId())));
 
         LinkedHashMap<Long, Workday> result = new LinkedHashMap<>();
         for (Map.Entry<Long, Workday> entry : list) {

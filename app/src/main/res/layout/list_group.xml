@@ -1,85 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="70dp"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_group_border"
     android:padding="1dp"
-    android:background="#C80D47A1"
     android:weightSum="2">
 
     <LinearLayout
         android:id="@+id/wrapperGroupText"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_weight="1.4"
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/lblListHeaderTime"
-            android:text="23:18 - 23:18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="3.4"
             android:fontFamily="sans-serif-light"
             android:lineSpacingExtra="18sp"
             android:paddingLeft="5dp"
             android:paddingTop="2dp"
             android:paddingBottom="5dp"
+            android:text="11.10.19"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#E8EAF6"
+            android:textColor="#252525"
             android:textSize="20dp"
             android:typeface="normal" />
 
         <TextView
             android:id="@+id/lblListHeaderDate"
-            android:text="27.09.19"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1.5"
             android:fontFamily="sans-serif-light"
             android:lineSpacingExtra="18sp"
             android:paddingLeft="5dp"
             android:paddingTop="2dp"
             android:paddingBottom="5dp"
+            android:text="09:00 - 16:35 @ 17:35"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#E8EAF6"
+            android:textColor="#FF252525"
             android:textSize="20dp"
             android:typeface="normal" />
     </LinearLayout>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/wrapperGroupButtons"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0.6"
         android:orientation="horizontal">
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/changeDate"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_date_range_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_dateicon" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/addWorkIntervalButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_marginEnd="112dp"
-            android:src="@drawable/ic_play_arrow_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@drawable/ic_playicon"
+            android:layout_weight="1"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 
 
 </LinearLayout>
